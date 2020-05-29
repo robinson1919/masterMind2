@@ -10,6 +10,8 @@
           <v-col sm="1" md="1">
             <v-text-field
               solo
+              :class="[cod1]"
+              @click="selectionCod('cod1')"
               v-on:click="dialog = true"
             ></v-text-field>
           </v-col>
@@ -17,6 +19,8 @@
           <v-col sm="1" md="1">
             <v-text-field
               solo
+              :class="[cod2]"
+              @click="selectionCod('cod2')"
               v-on:click="dialog = true"
             ></v-text-field>
           </v-col>
@@ -24,6 +28,8 @@
           <v-col sm="1" md="1">
             <v-text-field
               solo
+              :class="[cod3]"
+              @click="selectionCod('cod3')"
               v-on:click="dialog = true"
             ></v-text-field>
           </v-col>
@@ -31,13 +37,19 @@
           <v-col sm="1" md="1" class="mr-5">
             <v-text-field
               solo
+              :class="[cod4]"
+              @click="selectionCod('cod4')"
               v-on:click="dialog = true"
             ></v-text-field>
+          </v-col>
+
+          <v-col sm="1" md="1" class="mr-5">
+            <v-btn color="success" @click="ready">Done</v-btn>
           </v-col>
         </v-row>
 
         <v-row cols="8" sm="6" md="3">
-          <hello-world @modalStatus="modal" :selectedColor="color"></hello-world>
+          <hello-world @modalStatus="modal" :selectedColor="color" :coderArr="codArr"></hello-world>
         </v-row>
       </v-card>
 
@@ -56,7 +68,8 @@
           </v-card-title>
 
           <v-row class="col-md-12 mx-auto">
-            <input type="text" class="col-md-3 blue hv" @click="getColor(1)">
+            <!-- <button class="col-md-3 blue hv" @click="getColor(1)"></button> -->
+            <input type="button" class="col-md-3 blue hv" @click="getColor(1)">
             <input type="text" class="col-md-3 red hv" @click="getColor(2)">
             <input type="text" class="col-md-3 yellow hv" @click="getColor(3)">
           </v-row>
@@ -98,7 +111,14 @@ export default {
 
   data: () => ({
     dialog: false,
-    color: '',
+    color: 0,
+    tic: '',
+    cod1: '',
+    cod2: '',
+    cod3: '',
+    cod4: '',
+    selectedCod: '',
+    codArr: [],
   }),
 
   methods: {
@@ -108,8 +128,184 @@ export default {
     },
 
     getColor(color){
+      
+      this.color = 0;
       this.color = color;
+      
+      if(this.color != 0){
+        switch(this.color){
+          case 1:
+
+            switch(this.selectedCod){
+              case 'cod1':
+                this.cod1 = 'blue';
+                this.selectedCod = '';
+                break;
+
+              case 'cod2':
+                this.cod2 = 'blue';
+                this.selectedCod = '';
+                break;
+
+              case 'cod3':
+                this.cod3 = 'blue';
+                this.selectedCod = '';
+                break;
+
+              case 'cod4':
+                this.cod4 = 'blue';
+                this.selectedCod = '';
+                break;
+            }
+            break;
+
+          case 2:
+            switch(this.selectedCod){
+              case 'cod1':
+                this.cod1 = 'red';
+                this.selectedCod = '';
+                break;
+
+              case 'cod2':
+                this.cod2 = 'red';
+                this.selectedCod = '';
+                break;
+
+              case 'cod3':
+                this.cod3 = 'red';
+                this.selectedCod = '';
+                break;
+
+              case 'cod4':
+                this.cod4 = 'red';
+                this.selectedCod = '';
+                break;
+            }
+            break;
+
+          case 3:
+            switch(this.selectedCod){
+              case 'cod1':
+                this.cod1 = 'yellow';
+                this.selectedCod = '';
+                break;
+
+              case 'cod2':
+                this.cod2 = 'yellow';
+                this.selectedCod = '';
+                break;
+
+              case 'cod3':
+                this.cod3 = 'yellow';
+                this.selectedCod = '';
+                break;
+
+              case 'cod4':
+                this.cod4 = 'yellow';
+                this.selectedCod = '';
+                break;
+            }
+            break;
+          
+          case 4:
+
+            switch(this.selectedCod){
+              case 'cod1':
+                this.cod1 = 'green';
+                this.selectedCod = '';
+                break;
+
+              case 'cod2':
+                this.cod2 = 'green';
+                this.selectedCod = '';
+                break;
+
+              case 'cod3':
+                this.cod3 = 'green';
+                this.selectedCod = '';
+                break;
+
+              case 'cod4':
+                this.cod4 = 'green';
+                this.selectedCod = '';
+                break;
+            }
+            break;
+
+          case 5:
+
+            switch(this.selectedCod){
+              case 'cod1':
+                this.cod1 = 'white';
+                this.selectedCod = '';
+                break;
+
+              case 'cod2':
+                this.cod2 = 'white';
+                this.selectedCod = '';
+                break;
+
+              case 'cod3':
+                this.cod3 = 'white';
+                this.selectedCod = '';
+                break;
+
+              case 'cod4':
+                this.cod4 = 'white';
+                this.selectedCod = '';
+                break;
+            }
+            break;
+
+          case 6:
+
+            switch(this.selectedCod){
+              case 'cod1':
+                this.cod1 = 'black';
+                this.selectedCod = '';
+                break;
+
+              case 'cod2':
+                this.cod2 = 'black';
+                this.selectedCod = '';
+                break;
+
+              case 'cod3':
+                this.cod3 = 'black';
+                this.selectedCod = '';
+                break;
+
+              case 'cod4':
+                this.cod4 = 'black';
+                this.selectedCod = '';
+                break;
+            }
+            break;
+          }
+      }
+      
+    },
+
+    selectionCod(val){
+      this.selectedCod = '';
+      this.selectedCod = val;
+    },
+
+    ready(){
+      if(this.codArr.length < 4){
+        if(this.cod1 && this.cod2 && this.cod3 && this.cod4){
+          this.codArr.push(this.cod1, this.cod2, this.cod3, this.cod4)
+          console.log(this.codArr)
+        }
+      }    
+      
     }
+  },
+  watch: {
+    dialog(){
+      this.color = 0;
+      
+    },
   },
 };
 </script>
