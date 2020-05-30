@@ -6,9 +6,9 @@
         <v-text-field
           solo
           v-model="casilla.sel1"
-          :class="[casilla.sel1]"
+          :class="[casilla.class1]"
           v-on:click="sendToP(true)"
-          @click="selected('sel1', index)"
+          @click="selected('sel1', index, 'class1')"
         ></v-text-field>
       </v-col>
 
@@ -16,9 +16,9 @@
          <v-text-field
           solo
           v-model="casilla.sel2"
-          :class="[casilla.sel2]"
+          :class="[casilla.class2]"
           v-on:click="sendToP(true)"
-          @click="selected('sel2', index)"
+          @click="selected('sel2', index, 'class2')"
         ></v-text-field>
       </v-col>
 
@@ -26,9 +26,9 @@
          <v-text-field
           solo
           v-model="casilla.sel3"
-          :class="[casilla.sel3]"
+          :class="[casilla.class3]"
           v-on:click="sendToP(true)"
-          @click="selected('sel3', index)"
+          @click="selected('sel3', index, 'class3')"
         ></v-text-field>
       </v-col>
 
@@ -36,10 +36,9 @@
          <v-text-field
           solo
           v-model="casilla.sel4"
-          :class="[casilla.sel4]"
+          :class="[casilla.class4]"
           v-on:click="sendToP(true)"
-          @click="selected('sel4', index)"
-          :ref="casilla.sel4"
+          @click="selected('sel4', index, 'class4')"
         ></v-text-field>
       </v-col>
 
@@ -54,31 +53,31 @@
       <v-col sm="1" md="1">
         <v-text-field
           solo
-          :class="[cHint1]"
+          :class="[casilla.hint1]"
         ></v-text-field>
       </v-col>
       <v-col sm="1" md="1">
         <v-text-field
           solo
-          :class="[cHint2]"
+          :class="[casilla.hint2]"
         ></v-text-field>
       </v-col>
       <v-col sm="1" md="1">
         <v-text-field
           solo
-          :class="[cHint3]"
+          :class="[casilla.hint3]"
         ></v-text-field>
       </v-col>
       <v-col sm="1" md="1">
         <v-text-field
           solo
-          :class="[cHint4]"
+          :class="[casilla.hint4]"
         ></v-text-field>
       </v-col>
 
       <!-- Button -->
       <v-col sm="1" md="1">
-        <v-btn color="success" @click="CheckNadd">
+        <v-btn color="success" @click="CheckNadd(index)">
           
           Set
         </v-btn>
@@ -111,6 +110,12 @@
       cHint4: '',
       selection: {},
       newArr: [],
+      oArr: [],
+      matches: [],
+      yellowMatch: [],
+      code: false,
+      testArr: [],
+      lastArr: [],
       casillas: [
         {
           sel1: '',
@@ -121,6 +126,10 @@
           hint2: '',
           hint3: '',
           hint4: '',
+          class1: '',
+          class2: '',
+          class3: '',
+          class4: '',
         }
       ]
     }),
@@ -134,125 +143,175 @@
         this.$emit('modalStatus', dialog);
       },
 
-      CheckNadd(){
+      CheckNadd(val){
         // verifica si hay alguna celda vacia
-        
+        var hintArr = [];
+        var matchHint = [];
+        var num = 0;
+
         for (let i = 0; i < this.newArr.length; i++) {
           var index = this.newArr[i].position;
           var cel = this.newArr[i].cel;
-          if(this.casillas[index][cel] == this.coderArr[i]){
-            console.log(this.coderArr[i]+'you won the game')
-          }
-          // console.log(this.casillas[index][cel])
-          // console.log(this.coderArr[i])
-          
-          this.casillas.forEach(x => {
-            this.coderArr.forEach(el => {
-              if(x[cel] == el){
-                console.log(x[cel])
-              }
-            });
-          });
-        }
-
-        
-
-        // for (let u = 0; u < this.coderArr.length; u++) {
-          // console.log(this.coderArr[u])
-          // for (let i = 0; i < this.casillas.length; i++) {
-            // console.log(this.casillas[i][Object.keys(this.casillas[i])[u]])
-            // if(this.coderArr[u] == this.casillas[i][Object.keys(this.casillas[i])[u]]){
-            //   console.log(this.coderArr[u])
-            // }
-            
-            // console.log(Object.keys(this.casillas[i])[u])
-        //   }
-        // }
-        
-        
-            
-            
-          
-            // if(this.casillas[i]['sel1'] == '' || this.casillas[i]['sel2'] == '' || this.casillas[i]['sel3'] == '' || this.casillas[i]['sel4'] == ''){
-            //   return;
-            // } else {
-              
-                // if(this.casillas[i]['sel1'] == this.coderArr[i] && this.casillas[i]['sel2'] == this.coderArr[i] && this.casillas[i]['sel3'] == this.coderArr[i] && this.casillas[i]['sel1'] == this.coderArr[i]){
-                //   console.log('you won the game')
-                // }
-                
-                
-                // console.log(this.casillas[i][Object.keys(this.casillas[i])])
-                
-              
-
-
-
-              this.casillas.push(
-                {
-                  sel1: '',
-                  sel2: '',
-                  sel3: '',
-                  sel4: '',
-                  hint1: '',
-                  hint2: '',
-                  hint3: '',
-                  hint4: '',
-                }
-              );
-            // }
-            
-            
-          // console.log(this.casillas[i][Object.keys(this.casillas[i])[o]])
-          // for (let o = 0; o < 4; o++) {
+          // if(this.casillas[index][cel] == this.coderArr[i]){
+          //   console.log(this.coderArr[i]+'you won the game')
           // }
           
           
+          hintArr = [];
+          this.casillas.forEach(x => {
+            var codPosCel = x[cel];
+            this.coderArr.forEach(el => {
+              
+              var derCo = el;
+              if(codPosCel == derCo){
+                if(Object.keys(x).indexOf(cel) == this.coderArr.indexOf(el)){
+                  this.matches.push(Object.keys(x).indexOf(cel));
+                  
+                  this.casillas[val].hint1 = '';
+                  this.casillas[val].hint2 = '';
+                  this.casillas[val].hint3 = '';
+                  this.casillas[val].hint4 = '';
+                }
+
+                if(Object.keys(x).indexOf(cel) != this.coderArr.indexOf(el)){
+                  this.yellowMatch.push(Object.keys(x).indexOf(cel))
+                }
+
+              }
+              el = '';
+            });
+            x[cel] = '';
+            
+          });
+          cel = '';
+
+        }
         
         
+        // ----------------GOOD COLOR BAD POSITION-------------------------------
+        console.log(this.yellowMatch.length)
+        switch(this.yellowMatch.length + this.matches.length){
+          case 1:
+            this.casillas[val].hint1 = 'yellow';
+            break;
+
+          case 2:
+            this.casillas[val].hint1 = 'yellow';
+            this.casillas[val].hint2 = 'yellow';
+            break;
+
+          case 3:
+            this.casillas[val].hint1 = 'yellow';
+            this.casillas[val].hint2 = 'yellow';
+            this.casillas[val].hint3 = 'yellow';
+            break;
+
+          case 4:
+            this.casillas[val].hint1 = 'yellow';
+            this.casillas[val].hint2 = 'yellow';
+            this.casillas[val].hint3 = 'yellow';
+            this.casillas[val].hint4 = 'yellow';
+            break;
+        }
+        // ----------------GOOD COLOR BAD POSITION-------------------------------
+        this.yellowMatch = [];
+
+
+
+        // good color and position
+        switch(this.matches.length){
+          case 1:
+            this.casillas[val].hint1 = 'black';
+            break;
+
+          case 2:
+            this.casillas[val].hint1 = 'black';
+            this.casillas[val].hint2 = 'black';
+            break;
+
+          case 3:
+            this.casillas[val].hint1 = 'black';
+            this.casillas[val].hint2 = 'black';
+            this.casillas[val].hint3 = 'black';
+            break;
+
+          case 4:
+            this.casillas[val].hint1 = 'black';
+            this.casillas[val].hint2 = 'black';
+            this.casillas[val].hint3 = 'black';
+            this.casillas[val].hint4 = 'black';
+            break;
+        }
+        // good color and position
+        this.matches = [];
+
+        val = '';
         
 
-        // console.log(this.casillas.length)
+        this.casillas.push(
+          {
+            sel1: '',
+            sel2: '',
+            sel3: '',
+            sel4: '',
+            hint1: '',
+            hint2: '',
+            hint3: '',
+            hint4: '',
+            class1: '',
+            class2: '',
+            class3: '',
+            class4: '',
+          }
+        );
       },
 
-      selected(val, index){
-        this.selection = { cel: val, position: index}
+      selected(val, index, cls){
+        this.selection = { cel: val, position: index, clas: cls}
       },
 
       addColor(selectedColor){
         var index = "";
         var cel = "";
+        var classSel = "";
         index = this.selection.position;
         cel = this.selection.cel;
+        classSel = this.selection.clas;
         if(index != undefined && cel != undefined){
           switch(selectedColor){
             case 1:
-              this.casillas[index][cel] = 'blue';
+              this.casillas[index][classSel] = 'blue';
+              this.casillas[index][cel]  = 'blue';
               cel = '';
               index = '';
               break;
 
             case 2:
+              this.casillas[index][classSel] = 'red';
               this.casillas[index][cel] = 'red';
               this.selection = {};
               break;
 
             case 3:
+              this.casillas[index][classSel] = 'yellow';
               this.casillas[index][cel] = 'yellow';
               this.selection = {};
               break;
 
             case 4:
+              this.casillas[index][classSel] = 'green';
               this.casillas[index][cel] = 'green';
               this.selection = {};
               break;
 
             case 5:
+              this.casillas[index][classSel] = 'white';
               this.casillas[index][cel] = 'white';
               this.selection = {};
               break;
 
             case 6:
+              this.casillas[index][classSel] = 'black';
               this.casillas[index][cel] = 'black';
               this.selection = {};
               break;
@@ -264,7 +323,6 @@
     },
     watch: {
       'selectedColor'(){
-        // console.log(this.coderArr)
         if(this.selectedColor != 0){
           this.addColor(this.selectedColor);
         }
@@ -273,13 +331,9 @@
       selection(){
         var ind = this.selection.position;
         var selec = this.selection.cel;
-        // console.log(ind, selec)
         if(ind != undefined && selec != undefined){
           this.newArr.push(this.selection);
         }
-        
-        
-       
       }
     },
 
