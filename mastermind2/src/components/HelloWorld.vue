@@ -83,7 +83,6 @@
         </v-btn>
       </v-col>
       <!-- Button -->
-      {{selectedColor}}
       <!-- hints end -->
 
 
