@@ -303,7 +303,6 @@ export default {
       if(this.codArr.length < 4){
         if(this.cod1 && this.cod2 && this.cod3 && this.cod4){
           this.codArr.push(this.cod1, this.cod2, this.cod3, this.cod4)
-          console.log(this.codArr)
         }
       }    
       

@@ -184,10 +184,6 @@
         for (let i = 0; i < this.newArr.length; i++) {
           var index = this.newArr[i].position;
           var cel = this.newArr[i].cel;
-          // if(this.casillas[index][cel] == this.coderArr[i]){
-          //   console.log(this.coderArr[i]+'you won the game')
-          // }
-          
           
           hintArr = [];
           this.casillas.forEach(x => {
