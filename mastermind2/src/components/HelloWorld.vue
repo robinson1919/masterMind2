@@ -114,7 +114,6 @@
       yellowMatch: [],
       code: false,
       testArr: [],
-      lastArr: [],
       igual: 0,
       casillas: [
         {
@@ -161,13 +160,34 @@
           this.casillas.forEach(x => {
             var codPosCel = x[cel];
             this.coderArr.forEach(el => {
-              
               var derCo = el;
               if(codPosCel == derCo){
                 this.oArr.push(codPosCel)
-                if((this.oArr[0] == this.oArr[1]) && (this.oArr[0] == this.oArr[2]) && (this.oArr[0] == this.oArr[3])){
-                  this.igual = this.oArr.length;
+
+
+                
+                var sorted_arr = this.oArr.slice().sort();
+                var results = [];
+                for (var i = 0; i < sorted_arr.length - 1; i++) {
+                    if (sorted_arr[i + 1] === sorted_arr[i]) {
+                        results.push(sorted_arr[i]);
+                    }
                 }
+                this.igual = results.length;
+                
+                
+                
+                  
+                // var midArr = [];
+                // midArr = new Set(this.oArr);
+                // console.log(midArr)
+                // this.testArr = [...midArr]
+                // this.igual = this.testArr
+                
+
+                // if((this.oArr[0] == this.oArr[1]) && (this.oArr[0] == this.oArr[2]) && (this.oArr[0] == this.oArr[3])){
+                //   this.igual = this.oArr.length;
+                // }
                 if(Object.keys(x).indexOf(cel) == this.coderArr.indexOf(el)){
                   this.matches.push(Object.keys(x).indexOf(cel));
                   
@@ -188,8 +208,11 @@
             
           });
           cel = '';
+          
 
         }
+
+        this.oArr = [];
         
         
         // ----------------GOOD COLOR BAD POSITION-------------------------------
@@ -219,6 +242,7 @@
         // ----------------GOOD COLOR BAD POSITION-------------------------------
         this.yellowMatch = [];
         this.igual = 0;
+        this.testArr = [];
 
 
 
