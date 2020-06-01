@@ -77,13 +77,45 @@
 
       <!-- Button -->
       <v-col sm="1" md="1">
-        <v-btn color="success" @click="CheckNadd(index)">
-          
+        <v-btn color="success" @click="CheckNadd(index)">          
           Set
         </v-btn>
       </v-col>
       <!-- Button -->
       <!-- hints end -->
+
+      <!-- win modal start -->
+      <v-dialog
+        v-model="winModal"
+        persistent :overlay="true"
+        max-width="500px"
+      >
+        <v-card>
+          <v-card-title
+            class="headline grey lighten-2"
+            primary-title
+          >
+            You won!
+          </v-card-title>
+
+          <v-card-text>
+            Congratulations you won the game! click reset to start a new game.
+          </v-card-text>
+
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              text
+              @click="cleanAll"
+            >
+              reset
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <!-- win modal end -->
 
 
 
@@ -107,13 +139,14 @@
       cHint2: '',
       cHint3: '',
       cHint4: '',
+      resVal: false,
       selection: {},
       newArr: [],
       oArr: [],
       matches: [],
       yellowMatch: [],
       code: false,
-      testArr: [],
+      winModal: false,
       igual: 0,
       casillas: [
         {
@@ -162,10 +195,9 @@
             this.coderArr.forEach(el => {
               var derCo = el;
               if(codPosCel == derCo){
-                this.oArr.push(codPosCel)
 
-
-                
+                // validate duplicated colors 
+                this.oArr.push(codPosCel)                
                 var sorted_arr = this.oArr.slice().sort();
                 var results = [];
                 for (var i = 0; i < sorted_arr.length - 1; i++) {
@@ -174,20 +206,8 @@
                     }
                 }
                 this.igual = results.length;
+                // -------------------------------------------------
                 
-                
-                
-                  
-                // var midArr = [];
-                // midArr = new Set(this.oArr);
-                // console.log(midArr)
-                // this.testArr = [...midArr]
-                // this.igual = this.testArr
-                
-
-                // if((this.oArr[0] == this.oArr[1]) && (this.oArr[0] == this.oArr[2]) && (this.oArr[0] == this.oArr[3])){
-                //   this.igual = this.oArr.length;
-                // }
                 if(Object.keys(x).indexOf(cel) == this.coderArr.indexOf(el)){
                   this.matches.push(Object.keys(x).indexOf(cel));
                   
@@ -242,7 +262,6 @@
         // ----------------GOOD COLOR BAD POSITION-------------------------------
         this.yellowMatch = [];
         this.igual = 0;
-        this.testArr = [];
 
 
 
@@ -268,14 +287,16 @@
             this.casillas[val].hint2 = 'black';
             this.casillas[val].hint3 = 'black';
             this.casillas[val].hint4 = 'black';
+            this.winModal = true;
+            return;
             break;
         }
-        // good color and position
-        this.matches = [];
+        // good color and position end
 
+        this.matches = [];
         val = '';
         
-
+        // Adds a new row 
         this.casillas.push(
           {
             sel1: '',
@@ -348,6 +369,42 @@
 
         
       },
+
+      cleanAll(){
+        this.casillas.forEach(element => {
+          this.resVal = true;
+          this.$emit('resetCod', this.resVal);
+          element.class1 = '';
+          element.class2 = '';
+          element.class3 = '';
+          element.class4 = '';
+          element.hint1 = '';
+          element.hint2 = '';
+          element.hint3 = '';
+          element.hint4 = '';
+          this.oArr = [];
+          this.igual = 0;
+          this.yellowMatch = [];
+          this.matches = [];
+          this.casillas = [
+            {
+              sel1: '',
+              sel2: '',
+              sel3: '',
+              sel4: '',
+              hint1: '',
+              hint2: '',
+              hint3: '',
+              hint4: '',
+              class1: '',
+              class2: '',
+              class3: '',
+              class4: '',
+            }
+          ]
+        });
+        this.winModal = false;
+      }
     },
     watch: {
       'selectedColor'(){

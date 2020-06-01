@@ -49,7 +49,7 @@
         </v-row>
 
         <v-row cols="8" sm="6" md="3">
-          <hello-world @modalStatus="modal" :selectedColor="color" :coderArr="codArr"></hello-world>
+          <hello-world @modalStatus="modal" :selectedColor="color" :coderArr="codArr" @resetCod="resetAll"></hello-world>
         </v-row>
       </v-card>
 
@@ -125,6 +125,14 @@ export default {
 
     modal(arg){
       this.dialog = arg;
+    },
+
+    resetAll(){
+      this.cod1 = '';
+      this.cod2 = '';
+      this.cod3 = '';
+      this.cod4 = '';
+      this.codArr = [];
     },
 
     getColor(color){
@@ -295,6 +303,7 @@ export default {
       if(this.codArr.length < 4){
         if(this.cod1 && this.cod2 && this.cod3 && this.cod4){
           this.codArr.push(this.cod1, this.cod2, this.cod3, this.cod4)
+          console.log(this.codArr)
         }
       }    
       
