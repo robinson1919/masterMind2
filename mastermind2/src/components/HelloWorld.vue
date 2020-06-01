@@ -115,6 +115,7 @@
       code: false,
       testArr: [],
       lastArr: [],
+      igual: 0,
       casillas: [
         {
           sel1: '',
@@ -163,6 +164,10 @@
               
               var derCo = el;
               if(codPosCel == derCo){
+                this.oArr.push(codPosCel)
+                if((this.oArr[0] == this.oArr[1]) && (this.oArr[0] == this.oArr[2]) && (this.oArr[0] == this.oArr[3])){
+                  this.igual = this.oArr.length;
+                }
                 if(Object.keys(x).indexOf(cel) == this.coderArr.indexOf(el)){
                   this.matches.push(Object.keys(x).indexOf(cel));
                   
@@ -188,8 +193,7 @@
         
         
         // ----------------GOOD COLOR BAD POSITION-------------------------------
-        console.log(this.yellowMatch.length)
-        switch(this.yellowMatch.length + this.matches.length){
+        switch(this.yellowMatch.length + this.matches.length - this.igual){
           case 1:
             this.casillas[val].hint1 = 'yellow';
             break;
@@ -214,6 +218,7 @@
         }
         // ----------------GOOD COLOR BAD POSITION-------------------------------
         this.yellowMatch = [];
+        this.igual = 0;
 
 
 
